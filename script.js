@@ -36,6 +36,7 @@ async function getActivity() {
         })
     const imageDataObject = await fetch(imageURL);
     const image = await imageDataObject.json();
+    const altDescription = await image.results[0].alt_description;
     console.log(image.results[0].urls.full)
 
     // Giphy API data, based on activity data returned
