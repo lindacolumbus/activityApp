@@ -19,12 +19,9 @@ async function getActivity() {
     console.log(activity)
     const activityString = activity.activity.split(' ');
 
-    const longWord = activityString.filter(word => (word.length >= 4 && !word.includes(`'`)));
+    const longWord = activityString.filter(word => (word.length >= 3 && !word.includes(`'`)));
     const imageSearch = longWord.join(',');
-    console.log(imageSearch)
-
     const gifSearch = longWord.join(' ');
-    console.log(gifSearch)
 
     // Unsplash API image data, based on activity data returned
     const imageURL = new URL(app.imageURL);
@@ -36,8 +33,9 @@ async function getActivity() {
         })
     const imageDataObject = await fetch(imageURL);
     const image = await imageDataObject.json();
+    const imageSrc = await image.results[0].urls.full;
     const altDescription = await image.results[0].alt_description;
-    console.log(image.results[0].urls.full)
+    console.log(imageSrc)
 
     // Giphy API data, based on activity data returned
     const gifURL = new URL(app.gifURL);
@@ -50,9 +48,10 @@ async function getActivity() {
         })
     const gifDataObject = await fetch(gifURL);
     const gif = await gifDataObject.json();
-    console.log(gif.data[0].embed_url)
+    const gifSrc = await gif.data[0].embed_url;
+    console.log(gifSrc)
 
-  return activity;
+//   return activity;
 }
 
 app.init = () => {
