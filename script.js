@@ -8,6 +8,15 @@ app.gifURL = 'https://api.giphy.com/v1/gifs/search';
 
 let participants = 1;
 
+function getRadioValue() {
+    const radio = document.getElementsByName('numParticipants');
+    for (i = 0; i < radio.length; i++) {
+        if (radio[i].checked) {
+            participants = radio[i].value;
+            console.log(participants)};
+    }
+}
+
 async function getActivity() {
     // Bored API activity data
     const url = new URL(app.activityURL);

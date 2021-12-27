@@ -110,7 +110,7 @@ button {
     border: none;
 }
 
-button.submit {
+.radioInput button {
     grid-column-start: 1;
     grid-column-end: 17;
     margin: 10px 0 30px 0;
