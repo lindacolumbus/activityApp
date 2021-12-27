@@ -12,6 +12,10 @@ html {
     font-size: 62.5%;
 }
 
+body {
+    background-color: #EAFFD0;
+}
+
 body, h1, h2, p, nav, ul, li, button {
     margin: 0;
     padding: 0;
@@ -30,6 +34,15 @@ a {
     text-decoration: none;
 }
 
+.backgroundBand {
+    background-color: #FCE38A;
+    width: 100%;
+    height: 160px;
+    position: absolute;
+    top: 20%;
+    z-index: -1;
+}
+
 header {
     position: absolute;
     top: 0;
@@ -41,6 +54,8 @@ h1 {
     font-size: 7.4rem;
     margin-left: -30%;
     margin-top: 30px;
+    color: #F38181;
+    -webkit-text-stroke: 2px #EAFFD0;
 }
 
 h1, button {
@@ -90,6 +105,9 @@ main {
 
 button {
     font-size: 2rem;
+    background-color: #95E1D3;
+    padding: 15px 0;
+    border: none;
 }
 
 button.submit {
