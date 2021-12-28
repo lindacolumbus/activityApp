@@ -9,6 +9,7 @@ app.gifURL = 'https://api.giphy.com/v1/gifs/search';
 async function getActivity() {
     // user's radio input selection
     const radio = document.getElementsByName('numParticipants');
+
     for (i = 0; i < radio.length; i++) {
         if (radio[i].checked) {
             participants = radio[i].value;
@@ -21,8 +22,20 @@ async function getActivity() {
         participants: `${participants}`
         })
     const activityDataObject = await fetch(url);
+    // activity recommendation data
     const activity = await activityDataObject.json();
-    console.log(activity)
+
+    const radioChoice = document.querySelector('.radioInput button');
+    console.log(radioChoice)
+    radioChoice.addEventListener('click', e => {
+        console.log(e)
+        if (e) {
+            const results = document.querySelector('.activityRecommendation');
+            results.innerText = activity.activity;
+        }
+    })
+    console.log(activity.activity)
+
     const activityString = activity.activity.split(' ');
 
     const longWord = activityString.filter(word => (word.length >= 3 && !word.includes(`'`)));
