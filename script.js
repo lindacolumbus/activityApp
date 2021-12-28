@@ -6,18 +6,15 @@ app.gifApiKey = 'WZ5Osv7W0JPH1duyxCbrQWP789FKAXs3';
 app.imageURL = `https://api.unsplash.com/search/photos`;
 app.gifURL = 'https://api.giphy.com/v1/gifs/search';
 
-let participants = 1;
-
-function getRadioValue() {
+async function getActivity() {
+    // user's radio input selection
     const radio = document.getElementsByName('numParticipants');
     for (i = 0; i < radio.length; i++) {
         if (radio[i].checked) {
             participants = radio[i].value;
             console.log(participants)};
     }
-}
 
-async function getActivity() {
     // Bored API activity data
     const url = new URL(app.activityURL);
     url.search = new URLSearchParams({
@@ -59,8 +56,6 @@ async function getActivity() {
     const gif = await gifDataObject.json();
     const gifSrc = await gif.data[0].embed_url;
     console.log(gifSrc)
-
-//   return activity;
 }
 
 app.init = () => {
