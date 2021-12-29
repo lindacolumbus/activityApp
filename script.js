@@ -36,7 +36,18 @@ app.startEventListener = () => {
                     // format activity recommendation to use for the two API calls
                     const activityString = activity.activity.split(' ');
                     const longWord = activityString.filter(word => (word.length >= 3 && !word.includes(`'`)));
-                    const imageSearch = longWord.join(',');
+                    const longerWord = activityString.filter(word => (word.length >= 4 && !word.includes(`'`)));
+                    const longestWord = activityString.filter(word => (word.length >= 5 && !word.includes(`'`)));
+
+                    // only use the most relevant words for the image search API parameter
+                    if (longestWord) {
+                        imageSearch = longestWord.join(',');
+                    } else if (longerWord) {
+                        imageSearch = longerWord.join(',');
+                    } else if (longWord) {
+                        imageSearch = longWord.join(',');
+                    }
+
                     const gifSearch = longWord.join(' ');
                 
                     // Unsplash API image data, based on activity data returned
@@ -51,7 +62,12 @@ app.startEventListener = () => {
                     const image = await imageDataObject.json();
                     const imageSrc = await image.results[0].urls.full;
                     const altDescription = await image.results[0].alt_description;
-                    console.log(imageSrc)
+                    console.log(imageSearch)
+
+                    // image changes based on activity recommendation and API data
+                    const featureImage = document.querySelector('.image img')
+                    featureImage.src = imageSrc;
+                    featureImage.alt = altDescription;
                 
                     // Giphy API data, based on activity data returned
                     const gifURL = new URL(app.gifURL);
