@@ -34,13 +34,35 @@ app.startEventListener = () => {
                     const activity = await activityDataObject.json();
                     // h2 activity recommendation string
                     app.results.innerText = activity.activity;
-                    apiSearch = activity.activity;
+
+                    // format activity recommendation to use for the Unsplash API call
+                    const activityData = activity.activity.split(' ');
+                    const firstPropertyRemoved = activityData.splice(1, activityData.length);
+                    const searchValue = firstPropertyRemoved.filter(word => (!word.includes(`'`) && !word.includes(`-`)));
+                    console.log(searchValue)
+                    const longWord = searchValue.filter(word => (word.length >= 3));
+                    const longerWord = searchValue.filter(word => (word.length >= 4));
+                    const longestWord = searchValue.filter(word => (word.length >= 5));
+
+                    // only use the most relevant words for the Unsplash API parameter
+                    if (longestWord) {
+                        imageSearch = longestWord.join(' ');
+                    } else if (longerWord) {
+                        imageSearch = longerWord.join(' ');
+                    } else if (longWord) {
+                        imageSearch = longWord.join(' ');
+                    } else {
+                        imageSearch = searchValue.join(' ')
+                    }
+
+                    gifSearch = activity.activity;
+                    console.log(imageSearch, gifSearch)
                
                     // Unsplash API image data, based on activity data returned
                     const imageURL = new URL(app.imageURL);
                     imageURL.search = new URLSearchParams({
                         client_id: app.imageApiKey,
-                        query: apiSearch,
+                        query: imageSearch,
                         per_page: 1,
                         orientation: 'portrait'
                         })
@@ -57,7 +79,7 @@ app.startEventListener = () => {
                     const gifURL = new URL(app.gifURL);
                     gifURL.search = new URLSearchParams({
                         api_key: app.gifApiKey,
-                        q: apiSearch,
+                        q: gifSearch,
                         limit: 1,
                         rating: 'pg',
                         lang: 'en'
