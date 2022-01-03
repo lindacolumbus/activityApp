@@ -3,12 +3,16 @@ const app = {};
 app.activityURL = 'http://www.boredapi.com/api/activity/';
 app.imageApiKey = `StpMdwFhlOwrb4d-Ed7owQCq6bx4QCDQv_8wgN4x3tc`;
 app.gifApiKey = 'WZ5Osv7W0JPH1duyxCbrQWP789FKAXs3';
+app.results = document.querySelector('.activityRecommendation');
+app.featureImage = document.querySelector('.image img');
+app.gifDiv = document.querySelector('.gif img');
 app.imageURL = `https://api.unsplash.com/search/photos`;
 app.gifURL = 'https://api.giphy.com/v1/gifs/search';
 
 // user's radio input selection
 app.radio = document.getElementsByName('numParticipants');
 app.radioChoice = document.querySelector('.radioInput button');
+app.reset = document.querySelector('.reset');
 
 app.startEventListener = () => {
     app.radioChoice.addEventListener('click', e => {
@@ -28,34 +32,15 @@ app.startEventListener = () => {
 
                     // activity recommendation data
                     const activity = await activityDataObject.json();
-                    console.log(activity)
                     // h2 activity recommendation string
-                    const results = document.querySelector('.activityRecommendation');
-                    results.innerText = activity.activity;
-                
-                    // format activity recommendation to use for the two API calls
-                    const activityString = activity.activity.split(' ');
-                    const longWord = activityString.filter(word => (word.length >= 3 && !word.includes(`'`)));
-                    const longerWord = activityString.filter(word => (word.length >= 4 && !word.includes(`'`)));
-                    const longestWord = activityString.filter(word => (word.length >= 5 && !word.includes(`'`)));
-
-                    // only use the most relevant words for the image search API parameter
-                    if (longestWord) {
-                        imageSearch = longestWord.join(',');
-                        gifSearch = longestWord.join(',');
-                    } else if (longerWord) {
-                        imageSearch = longerWord.join(',');
-                        gifSearch = longerWord.join(',');
-                    } else if (longWord) {
-                        imageSearch = longWord.join(',');
-                        gifSearch = longWord.join(',');
-                    }
-                
+                    app.results.innerText = activity.activity;
+                    apiSearch = activity.activity;
+               
                     // Unsplash API image data, based on activity data returned
                     const imageURL = new URL(app.imageURL);
                     imageURL.search = new URLSearchParams({
                         client_id: app.imageApiKey,
-                        query: imageSearch,
+                        query: apiSearch,
                         per_page: 1,
                         orientation: 'portrait'
                         })
@@ -63,18 +48,16 @@ app.startEventListener = () => {
                     const image = await imageDataObject.json();
                     const imageSrc = await image.results[0].urls.full;
                     const altDescription = await image.results[0].alt_description;
-                    console.log(imageSearch)
 
                     // image changes based on activity recommendation and API data
-                    const featureImage = document.querySelector('.image img')
-                    featureImage.src = imageSrc;
-                    featureImage.alt = altDescription;
+                    app.featureImage.src = imageSrc;
+                    app.featureImage.alt = altDescription;
                 
                     // Giphy API data, based on activity data returned
                     const gifURL = new URL(app.gifURL);
                     gifURL.search = new URLSearchParams({
                         api_key: app.gifApiKey,
-                        q: gifSearch,
+                        q: apiSearch,
                         limit: 1,
                         rating: 'pg',
                         lang: 'en'
@@ -85,13 +68,23 @@ app.startEventListener = () => {
                     const gifAlt = gif.data[0].title;
 
                     // gif changes based on activity recommendation and API data
-                    const gifDiv = document.querySelector('.gif img');
-                    gifDiv.src = gifSrc;
-                    gifDiv.alt = gifAlt;
+                    app.gifDiv.src = gifSrc;
+                    app.gifDiv.alt = gifAlt;
                 }
-                getActivity()
+                getActivity();
+                app.reset.classList.toggle('hidden')
             }
         }
+        // app.reset.classList.toggle('hidden')
+    })
+
+    app.reset.addEventListener('click', e => {
+        app.featureImage.src = 'https://images.unsplash.com/photo-1551818567-d49550a81408?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80';
+        app.featureImage.alt = 'Woman lying on ground with a book covering her face';
+        app.gifDiv.src = '';
+        app.gifDiv.alt = '';
+        app.results.innerText = '';
+        app.reset.classList.toggle('hidden')
     })
 }
 
