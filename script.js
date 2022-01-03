@@ -42,13 +42,14 @@ app.startEventListener = () => {
                     // only use the most relevant words for the image search API parameter
                     if (longestWord) {
                         imageSearch = longestWord.join(',');
+                        gifSearch = longestWord.join(',');
                     } else if (longerWord) {
                         imageSearch = longerWord.join(',');
+                        gifSearch = longerWord.join(',');
                     } else if (longWord) {
                         imageSearch = longWord.join(',');
+                        gifSearch = longWord.join(',');
                     }
-
-                    const gifSearch = longWord.join(' ');
                 
                     // Unsplash API image data, based on activity data returned
                     const imageURL = new URL(app.imageURL);
@@ -80,8 +81,13 @@ app.startEventListener = () => {
                         })
                     const gifDataObject = await fetch(gifURL);
                     const gif = await gifDataObject.json();
-                    const gifSrc = await gif.data[0].embed_url;
-                    console.log(gifSrc)
+                    const gifSrc = await gif.data[0].images.original.url;
+                    const gifAlt = gif.data[0].title;
+
+                    // gif changes based on activity recommendation and API data
+                    const gifDiv = document.querySelector('.gif img');
+                    gifDiv.src = gifSrc;
+                    gifDiv.alt = gifAlt;
                 }
                 getActivity()
             }
