@@ -79,6 +79,10 @@ p, label, button {
     font-family: 'Kameron', serif;
 }
 
+i {
+    font-size: 3rem;
+}
+
 main {
     width: 60%;
     margin: 0 auto;
@@ -90,8 +94,11 @@ main {
 
 .image {
     width: 40%;
-    height: 100vh;
+    height: calc(100vh - 100px);
     object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .userInput p {
@@ -131,4 +138,8 @@ button.reset {
 
 .hidden {
     display: none;
+}
+
+.loading {
+    text-align: center;
 }

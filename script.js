@@ -4,8 +4,9 @@ app.activityURL = 'http://www.boredapi.com/api/activity/';
 app.imageApiKey = `StpMdwFhlOwrb4d-Ed7owQCq6bx4QCDQv_8wgN4x3tc`;
 app.gifApiKey = 'WZ5Osv7W0JPH1duyxCbrQWP789FKAXs3';
 app.results = document.querySelector('.activityRecommendation');
+app.featureImageDiv = document.querySelector('.image');
 app.featureImage = document.querySelector('.image img');
-app.gifDiv = document.querySelector('.gif img');
+app.gifDiv = document.querySelector('.gif');
 app.imageURL = `https://api.unsplash.com/search/photos`;
 app.gifURL = 'https://api.giphy.com/v1/gifs/search';
 
@@ -23,6 +24,10 @@ app.startEventListener = () => {
                 participants = app.radio[i].value;
 
                 async function getActivity() {
+                    const loader = `<div class="loading"><i class="fas fa-spinner fa-spin"></i></div>`;
+                    app.results.innerHTML = loader;
+                    app.featureImageDiv.innerHTML = loader;
+                    app.gifDiv.innerHTML = loader;
                     // Bored API activity data
                     const url = new URL(app.activityURL);
                     url.search = new URLSearchParams({
@@ -39,24 +44,22 @@ app.startEventListener = () => {
                     const activityData = activity.activity.split(' ');
                     const firstPropertyRemoved = activityData.splice(1, activityData.length);
                     const searchValue = firstPropertyRemoved.filter(word => (!word.includes(`'`) && !word.includes(`-`)));
-                    console.log(searchValue)
                     const longWord = searchValue.filter(word => (word.length >= 3));
                     const longerWord = searchValue.filter(word => (word.length >= 4));
                     const longestWord = searchValue.filter(word => (word.length >= 5));
 
                     // only use the most relevant words for the Unsplash API parameter
                     if (longestWord) {
-                        imageSearch = longestWord.join(' ');
+                        imageSearch = longestWord.join(',');
                     } else if (longerWord) {
-                        imageSearch = longerWord.join(' ');
+                        imageSearch = longerWord.join(',');
                     } else if (longWord) {
-                        imageSearch = longWord.join(' ');
+                        imageSearch = longWord.join(',');
                     } else {
-                        imageSearch = searchValue.join(' ')
+                        imageSearch = searchValue.join(',')
                     }
 
                     gifSearch = activity.activity;
-                    console.log(imageSearch, gifSearch)
                
                     // Unsplash API image data, based on activity data returned
                     const imageURL = new URL(app.imageURL);
@@ -72,8 +75,7 @@ app.startEventListener = () => {
                     const altDescription = await image.results[0].alt_description;
 
                     // image changes based on activity recommendation and API data
-                    app.featureImage.src = imageSrc;
-                    app.featureImage.alt = altDescription;
+                    app.featureImageDiv.innerHTML = `<img src="${imageSrc}" alt="${altDescription}">`
                 
                     // Giphy API data, based on activity data returned
                     const gifURL = new URL(app.gifURL);
@@ -90,14 +92,12 @@ app.startEventListener = () => {
                     const gifAlt = gif.data[0].title;
 
                     // gif changes based on activity recommendation and API data
-                    app.gifDiv.src = gifSrc;
-                    app.gifDiv.alt = gifAlt;
+                    app.gifDiv.innerHTML = `<img src="${gifSrc}" alt="${gifAlt}">`
                 }
                 getActivity();
                 app.reset.classList.toggle('hidden')
             }
         }
-        // app.reset.classList.toggle('hidden')
     })
 
     app.reset.addEventListener('click', e => {
