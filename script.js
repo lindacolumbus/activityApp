@@ -45,7 +45,8 @@ app.startEventListener = () => {
                     const activityDataCopy = [...activityData];
                     const firstPropertyRemoved = activityData.splice(1, activityData.length);
                     const searchValue = firstPropertyRemoved.filter(word => (!word.includes(`'`) && !word.includes(`-`) && !word.includes('watch')));
-                    console.log(searchValue)
+                    const gifSearchValue = activityDataCopy.filter(word => (!word.includes(`Learn`)));
+                    console.log(gifSearchValue)
                     const longWord = searchValue.filter(word => (word.length >= 3));
                     const longerWord = searchValue.filter(word => (word.length >= 4));
 
@@ -63,7 +64,7 @@ app.startEventListener = () => {
                         imageSearch = longWord.join(',');
                     } else {
                         imageSearch = activityDataCopy.join(',');
-                        gifSearch = activity.activity
+                        gifSearch = gifSearchValue.join(' ')
                     }
 
                     if (imageSearch === '') {
@@ -80,12 +81,19 @@ app.startEventListener = () => {
                     console.log(gifSearch)
                
                     // Unsplash API image data, based on activity data returned
+
+                    // change feature image orientation based on screen size
+                    let imageOrientation = 'portrait';
+                    if (window.innerWidth <= 1250) {
+                        imageOrientation = 'landscape'
+                    } 
+
                     const imageURL = new URL(app.imageURL);
                     imageURL.search = new URLSearchParams({
                         client_id: app.imageApiKey,
                         query: imageSearch,
                         per_page: 1,
-                        orientation: 'portrait'
+                        orientation: imageOrientation
                         })
                     const imageDataObject = await fetch(imageURL);
                     const image = await imageDataObject.json();
