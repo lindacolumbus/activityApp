@@ -44,18 +44,35 @@ app.startEventListener = () => {
                     const activityData = activity.activity.split(' ');
                     const activityDataCopy = [...activityData];
                     const firstPropertyRemoved = activityData.splice(1, activityData.length);
-                    const searchValue = firstPropertyRemoved.filter(word => (!word.includes(`'`) && !word.includes(`-`) && !word.includes('watch')));
+                    const searchValue = firstPropertyRemoved.filter(word => (!word.includes(`'`) && !word.includes(`-`) && !word.includes('watch') && !word.includes('your')));
                     const gifSearchValue = activityDataCopy.filter(word => (!word.includes(`Learn`)));
                     console.log(gifSearchValue)
                     const longWord = searchValue.filter(word => (word.length >= 3));
                     const longerWord = searchValue.filter(word => (word.length >= 4));
 
-                    // only use the most relevant words for the Unsplash API parameter
+                    // error handling and working within the constraints of how the three APIs' data work together
                     if (searchValue.includes('living' && 'will')) {
                         imageSearch = 'legal, document';
                         gifSearch = 'legal document'
-                    } else if (searchValue.includes('local' && 'blood' && 'center')) {
+                    } else if (searchValue.includes('local' && 'blood')) {
                         imageSearch = 'donate, blood'
+                    } else if (searchValue.includes('Express.js')) {
+                        imageSearch = 'coding';
+                        gifSearch = 'coding'
+                    } else if (searchValue.includes('GraphQL')) {
+                        imageSearch = 'coding';
+                        gifSearch = 'coding'
+                    } else if (searchValue.includes('family' && 'tree')) {
+                        gifSearch = 'family'
+                    } else if (searchValue.includes('french' && 'press')) {
+                        gifSearch = 'coffee'
+                    } else if (searchValue.includes('lunch' && 'date')) {
+                        imageSearch = 'lunch'
+                    } else if (searchValue.includes('list')) {
+                        imageSearch = 'notebook'
+                    } else if (searchValue.includes('album')) {
+                        imageSearch = 'album';
+                        gifSearch = 'album'
                     } else if (longerWord) {
                         imageSearch = longerWord.join(',');
                     } else if (longWord) {
@@ -72,7 +89,7 @@ app.startEventListener = () => {
                     if (activityDataCopy.length > 7) {
                         gifSearch = activityDataCopy.slice(0, 7).join(' ');
                     } else {
-                        gifSearch = activity.activity;
+                        gifSearch = gifSearchValue.join(' ')
                     }
 
                     console.log(imageSearch)
@@ -90,10 +107,6 @@ app.startEventListener = () => {
                     const image = await imageDataObject.json();
                     let imageSrc = await image.results[0].urls.full;
                     let altDescription = await image.results[0].alt_description;
-
-                    if (image.results[0] == undefined) {
-                        imageSearch = 'learn';
-                    }
 
                     // image changes based on activity recommendation and API data
                     app.featureImageDiv.innerHTML = `<img src="${imageSrc}" alt="${altDescription}">`
