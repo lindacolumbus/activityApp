@@ -54,11 +54,9 @@ app.startEventListener = () => {
                     if (searchValue.includes('living' && 'will')) {
                         imageSearch = 'legal, document';
                         gifSearch = 'legal document'
-                    }
-                    else if (searchValue.includes('local' && 'blood' && 'center')) {
+                    } else if (searchValue.includes('local' && 'blood' && 'center')) {
                         imageSearch = 'donate, blood'
-                    }
-                    else if (longerWord) {
+                    } else if (longerWord) {
                         imageSearch = longerWord.join(',');
                     } else if (longWord) {
                         imageSearch = longWord.join(',');
@@ -83,26 +81,25 @@ app.startEventListener = () => {
                     // Unsplash API image data, based on activity data returned
 
                     // change feature image orientation based on screen size
-                    let imageOrientation = 'portrait';
-                    if (window.innerWidth <= 1250) {
-                        imageOrientation = 'landscape'
-                    } 
+                    // let imageOrientation = 'portrait';
+                    // if (window.innerWidth <= 1250) {
+                    //     imageOrientation = 'landscape'
+                    // } 
 
                     const imageURL = new URL(app.imageURL);
                     imageURL.search = new URLSearchParams({
                         client_id: app.imageApiKey,
                         query: imageSearch,
                         per_page: 1,
-                        orientation: imageOrientation
+                        orientation: 'portrait'
                         })
                     const imageDataObject = await fetch(imageURL);
                     const image = await imageDataObject.json();
                     let imageSrc = await image.results[0].urls.full;
                     let altDescription = await image.results[0].alt_description;
 
-                    if (image.results[0] === undefined) {
-                        imageSrc = 'learn';
-                        altDescription = 'learn'
+                    if (image.results[0] == undefined) {
+                        imageSearch = 'learn';
                     }
 
                     // image changes based on activity recommendation and API data

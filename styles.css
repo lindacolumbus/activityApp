@@ -134,7 +134,7 @@ button {
 
 button.reset {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 .hidden {
@@ -162,6 +162,7 @@ footer {
     }
     h1 {
         margin-left: 0;
+        margin-top: -50px;
     }
     .image {
         width: 100%;
@@ -170,5 +171,69 @@ footer {
     .userInput, .results {
         width: 70%;
         margin: 0 auto;
+    }
+
+    .radioInput {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 970px) {
+    main {
+        width: 80%;
+    }
+}
+
+@media (max-width: 730px) {
+    h1 {
+        font-size: 6.4rem;
+    }
+    .userInput, .results {
+        width: 100%;
+    }
+    .image img, .gif img {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 6rem;
+    }
+    .image img {
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+@media (max-width: 500px) {
+    main {
+        padding: 0;
+    }
+    .backgroundBand {
+        top: 10%;
+    }
+    h1 {
+        margin-top: -80px;
+    }
+    footer {
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 450px) {
+    h1 {
+        margin-top: 0;
+        font-size: 4.5rem;
+    }
+    .image {
+        height: 300px;
+    }
+}
+
+@media (max-width: 400px) {
+    .radioInput {
+        width: 100%;
     }
 }
