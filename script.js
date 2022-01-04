@@ -79,13 +79,6 @@ app.startEventListener = () => {
                     console.log(gifSearch)
                
                     // Unsplash API image data, based on activity data returned
-
-                    // change feature image orientation based on screen size
-                    // let imageOrientation = 'portrait';
-                    // if (window.innerWidth <= 1250) {
-                    //     imageOrientation = 'landscape'
-                    // } 
-
                     const imageURL = new URL(app.imageURL);
                     imageURL.search = new URLSearchParams({
                         client_id: app.imageApiKey,
@@ -129,10 +122,8 @@ app.startEventListener = () => {
     })
 
     app.reset.addEventListener('click', e => {
-        app.featureImage.src = 'https://images.unsplash.com/photo-1551818567-d49550a81408?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80';
-        app.featureImage.alt = 'Woman lying on ground with a book covering her face';
-        app.gifDiv.src = '';
-        app.gifDiv.alt = '';
+        app.featureImageDiv.innerHTML = `<img src="https://images.unsplash.com/photo-1551818567-d49550a81408?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" alt="Woman lying on ground with a book covering her face">`;
+        app.gifDiv.innerHTML = `<img src="" alt="">`
         app.results.innerText = '';
         app.reset.classList.toggle('hidden')
     })
