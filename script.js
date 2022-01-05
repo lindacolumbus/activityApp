@@ -46,48 +46,55 @@ app.startEventListener = () => {
                     const firstPropertyRemoved = activityData.splice(1, activityData.length);
                     const searchValue = firstPropertyRemoved.filter(word => (!word.includes(`'`) && !word.includes(`-`) && !word.includes('watch') && !word.includes('your')));
                     const gifSearchValue = activityDataCopy.filter(word => (!word.includes(`Learn`)));
-                    console.log(gifSearchValue)
                     const longWord = searchValue.filter(word => (word.length >= 3));
                     const longerWord = searchValue.filter(word => (word.length >= 4));
 
-                    // error handling and working within the constraints of how the three APIs' data work together
+                    // Unsplash API search handling
                     if (searchValue.includes('living' && 'will')) {
                         imageSearch = 'legal, document';
-                        gifSearch = 'legal document'
                     } else if (searchValue.includes('local' && 'blood')) {
                         imageSearch = 'donate, blood'
                     } else if (searchValue.includes('Express.js')) {
                         imageSearch = 'coding';
-                        gifSearch = 'coding'
                     } else if (searchValue.includes('GraphQL')) {
                         imageSearch = 'coding';
-                        gifSearch = 'coding'
+                    } else if (searchValue.includes('Kotlin')) {
+                        imageSearch = 'coding';
                     } else if (searchValue.includes('family' && 'tree')) {
-                        gifSearch = 'family'
+                        imageSearch = 'heritage';
                     } else if (searchValue.includes('french' && 'press')) {
-                        gifSearch = 'coffee'
+                        imageSearch = 'french, press'
                     } else if (searchValue.includes('lunch' && 'date')) {
                         imageSearch = 'lunch'
                     } else if (searchValue.includes('list')) {
                         imageSearch = 'notebook'
                     } else if (searchValue.includes('album')) {
                         imageSearch = 'album';
-                        gifSearch = 'album'
+                    } else if (searchValue.includes('Alexa')) {
+                        imageSearch = 'robot';
                     } else if (longerWord) {
                         imageSearch = longerWord.join(',');
                     } else if (longWord) {
                         imageSearch = longWord.join(',');
                     } else {
                         imageSearch = activityDataCopy.join(',');
-                        gifSearch = gifSearchValue.join(' ')
                     }
 
-                    if (imageSearch === '') {
-                        imageSearch = activity.activity;
-                    }
-
+                    // Giphy API search handling
                     if (activityDataCopy.length > 7) {
                         gifSearch = activityDataCopy.slice(0, 7).join(' ');
+                    } else if (gifSearchValue.includes('living' && 'will')) {
+                        gifSearch = 'legal document';
+                    } else if (gifSearchValue.includes('Express.js')) {
+                        gifSearch = 'coding';  
+                    } else if (gifSearchValue.includes('family' && 'tree')) {
+                        gifSearch = 'family';  
+                    } else if (gifSearchValue.includes('french' && 'press')) {
+                        gifSearch = 'coffee';
+                    } else if (gifSearchValue.includes('album')) {
+                        gifSearch = 'album'
+                    } else if (gifSearchValue.includes('Alexa')) {
+                        gifSearch = 'robot'
                     } else {
                         gifSearch = gifSearchValue.join(' ')
                     }
