@@ -1,13 +1,13 @@
 const app = {};
 
-app.activityURL = 'http://www.boredapi.com/api/activity/';
-app.imageApiKey = `StpMdwFhlOwrb4d-Ed7owQCq6bx4QCDQv_8wgN4x3tc`;
+app.activityURL = 'https://www.boredapi.com/api/activity/';
+app.imageApiKey = 'StpMdwFhlOwrb4d-Ed7owQCq6bx4QCDQv_8wgN4x3tc';
 app.gifApiKey = 'WZ5Osv7W0JPH1duyxCbrQWP789FKAXs3';
 app.results = document.querySelector('.activityRecommendation');
 app.featureImageDiv = document.querySelector('.image');
 app.featureImage = document.querySelector('.image img');
 app.gifDiv = document.querySelector('.gif');
-app.imageURL = `https://api.unsplash.com/search/photos`;
+app.imageURL = 'https://api.unsplash.com/search/photos';
 app.gifURL = 'https://api.giphy.com/v1/gifs/search';
 
 // user's radio input selection
