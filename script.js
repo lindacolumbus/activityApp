@@ -67,7 +67,7 @@ app.startEventListener = () => {
                         imageSearch = 'album';
                     } else if (searchValue.includes('Alexa')) {
                         imageSearch = 'robot';
-                    } else if (searchValue.includes('gym') || searchValue.includes('car') || searchValue.includes('DIY')) {
+                    } else if (searchValue.includes('gym') || searchValue.includes('car') || searchValue.includes('DIY') || searchValue.includes('run')) {
                         imageSearch = searchValue.join(',');
                     } else if (longerWord) {
                         imageSearch = longerWord.join(',');
