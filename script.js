@@ -90,6 +90,8 @@ app.startEventListener = () => {
                         gifSearch = 'album'
                     } else if (gifSearchValue.includes('Alexa')) {
                         gifSearch = 'robot'
+                    } else if (gifSearchValue.includes('two-factor')) {
+                        gifSearch = 'computer'
                     } else {
                         gifSearch = gifSearchValue.join(' ')
                     }
