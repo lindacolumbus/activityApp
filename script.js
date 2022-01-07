@@ -46,7 +46,6 @@ app.startEventListener = () => {
                     const firstPropertyRemoved = activityData.splice(1, activityData.length);
                     const searchValue = firstPropertyRemoved.filter(word => (!word.includes(`'`) && !word.includes('watch') && !word.includes('your')));
                     const gifSearchValue = activityDataCopy.filter(word => (!word.includes(`Learn`)));
-                    const longWord = searchValue.filter(word => (word.length >= 3));
                     const longerWord = searchValue.filter(word => (word.length >= 4));
 
                     // Unsplash API search handling
@@ -54,7 +53,7 @@ app.startEventListener = () => {
                         imageSearch = 'legal, document';
                     } else if (searchValue.includes('local') && searchValue.includes('blood')) {
                         imageSearch = 'donate, blood'
-                    } else if (searchValue.includes('Express.js') || searchValue.includes('GraphQL') || searchValue.includes('Kotlin')) {
+                    } else if (searchValue.includes('Express.js') || searchValue.includes('GraphQL') || searchValue.includes('Kotlin') || searchValue.includes('distributed')) {
                         imageSearch = 'coding';
                     } else if (searchValue.includes('family') && searchValue.includes('tree')) {
                         imageSearch = 'heritage';
@@ -68,12 +67,12 @@ app.startEventListener = () => {
                         imageSearch = 'album';
                     } else if (searchValue.includes('Alexa')) {
                         imageSearch = 'robot';
+                    } else if (searchValue.includes('gym') || searchValue.includes('car') || searchValue.includes('DIY')) {
+                        imageSearch = searchValue.join(',');
                     } else if (longerWord) {
                         imageSearch = longerWord.join(',');
-                    } else if (longWord) {
-                        imageSearch = longWord.join(',');
                     } else {
-                        imageSearch = gifSearchValue.join(' ');
+                        imageSearch = searchValue.join(',');
                     }
 
                     // Giphy API search handling
@@ -94,9 +93,6 @@ app.startEventListener = () => {
                     } else {
                         gifSearch = gifSearchValue.join(' ')
                     }
-
-                    console.log(imageSearch)
-                    console.log(gifSearch)
                
                     // Unsplash API image data, based on activity data returned
                     const imageURL = new URL(app.imageURL);
